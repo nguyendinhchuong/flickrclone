@@ -108,7 +108,7 @@ class Content extends Component {
                         self.setState({
                             photos: photos,
                             nextHref: res.next_href,
-                            page_pos: self.state.page_pos+1
+                            page_pos: self.state.page_pos + 1
                         })
                     } else {
                         self.setState({
@@ -140,11 +140,11 @@ class Content extends Component {
         var items = [];
         this.state.photos.map((photo, i) => {
             items.push(
-                <div className="track" key={i}>
-                    <a >
-                        <img src={'https://farm' + photo.farm + '.staticflickr.com/' + photo.server + '/' + photo.id + '_' + photo.secret + '.jpg'} />
-                        <p className="title">{photo.owner}</p>
-                    </a>
+                <div className="photo-view" key={i}>
+                        <img className="image" src={'https://farm' + photo.farm + '.staticflickr.com/' + photo.server + '/' + photo.id + '_' + photo.secret + '.jpg'} />
+                        <div className="interaction-bar">
+                            <div className="title">{photo.title}</div>
+                        </div>
                 </div>
             );
         })
@@ -159,18 +159,7 @@ class Content extends Component {
                         this.loadItems.bind(this)
                     }
                 >
-                    {/* <div className="photo-list-view">
-                        {this.state.photos.map(photo =>
-                            <div className="">
-                                <img src={'https://farm' + photo.farm + '.staticflickr.com/' + photo.server + '/' + photo.id + '_' + photo.secret + '.jpg'} className="img-responsive" alt="" />
-                                <div className="interaction-bar">
-                                    <div class="text">
-                                        <a>{photo.title} </a>
-                                        
-                                    </div>
-                                </div>
-                            </div>)}
-                    </div> */}
+
                     <div>
                         {items}
                     </div>
