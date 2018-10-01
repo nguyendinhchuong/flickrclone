@@ -83,12 +83,35 @@ class Content extends Component {
         super(props);
         this.state = {
             photos: [],
+            images: [],
             hasMoreItems: true,
             nextHref: null,
             page_pos: 1
         }
     }
-
+    getSize(photo_id) {
+        let images = this.state.images;
+        this.state.photos.map((photo)=>{
+            let url = api.baseUrl + '?method=flickr.photos.getSizes&api_key=' + api.api_key + '&photo_id=' + photo.id + '&format=json&nojsoncallback=1';
+            Axios.get(url)
+            .then(res => {
+                if (res) {
+                    let image = {};
+                    const size_arr = res.data.size;
+                    console.log(size_arr);
+                    const length = size_arr.length;
+                    image.src = res.data.size[length];
+                    image.thumbnail = res.data.size[4];
+                    image.thumbnailWidth = Number(res.data.size[4].width);
+                    image.thumbnailHeight = Number(res.data.size[4].height);
+                    images.push(image);
+                }
+            })
+        })
+        this.setState({
+            images:images
+        })
+    }
     loadItems(page) {
         let self = this;
         let url = api.baseUrl + '?method=flickr.interestingness.getList&api_key=' + api.api_key + '&per_page=20&page=' + self.state.page_pos + '&format=json&nojsoncallback=1';
@@ -102,6 +125,22 @@ class Content extends Component {
                     let photos = self.state.photos;
                     photos_api.map((image) => {
                         photos.push(image);
+                        //images.push(this.getSize(image.id));
+
+                        // let url_image_size = api.baseUrl + '?method=flickr.photos.getSizes&api_key=' + api.api_key + '&photo_id=' + image.id + '&format=json&nojsoncallback=1';
+                        // Axios.get(url_image_size)
+                        //     .then(res_size => {
+                        //         if (res_size) {
+                        //             const size_arr = res_size.data.size;
+                        //             const length = size_arr.length;
+                        //             image_size.src = res_size.data.size[length - 1];
+                        //             image_size.thumbnail = res_size.data.size[4];
+                        //             image_size.thumbnailWidth = Number(res_size.data.size[4].width);
+                        //             image_size.thumbnailHeight = Number(res_size.data.size[4].height);
+
+                        //             images.push(image_size);
+                        //         }
+                        //     })
 
                     })
                     if (url) {
@@ -116,7 +155,9 @@ class Content extends Component {
                         });
                     }
                 }
-            })
+            });
+        
+        
     }
     // componentDidMount() {
     //     Axios.get(`https://api.flickr.com/services/rest/?method=flickr.interestingness.getList&api_key=4dd2479d98c250c84c6075528a3292ca&per_page=20&page=1&format=json&nojsoncallback=1`)
@@ -141,10 +182,10 @@ class Content extends Component {
         this.state.photos.map((photo, i) => {
             items.push(
                 <div className="photo-view" key={i}>
-                        <img className="image" src={'https://farm' + photo.farm + '.staticflickr.com/' + photo.server + '/' + photo.id + '_' + photo.secret + '.jpg'} />
-                        <div className="interaction-bar">
-                            <div className="title">{photo.title}</div>
-                        </div>
+                    <img className="image" src={'https://farm' + photo.farm + '.staticflickr.com/' + photo.server + '/' + photo.id + '_' + photo.secret + '.jpg'} />
+                    <div className="interaction-bar">
+                        <div className="title">{photo.title}</div>
+                    </div>
                 </div>
             );
         })
@@ -155,11 +196,7 @@ class Content extends Component {
                     hasMore={this.state.hasMoreItems}
                     initialLoad={true}
                     loader={<div className="lds-ring"><div></div><div></div><div></div><div></div></div>}
-                    loadMore={
-                        this.loadItems.bind(this)
-                    }
-                >
-
+                    loadMore={this.loadItems.bind(this)}>
                     <div>
                         {items}
                     </div>
@@ -170,6 +207,7 @@ class Content extends Component {
     }
 
 }
+
 // Content.propTypes = {
 //     images: ProTypes.arrayOf(
 //         ProTypes.shape({
