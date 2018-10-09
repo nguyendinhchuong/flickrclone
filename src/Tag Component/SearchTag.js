@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
+import { Link } from 'react-router-dom';
 import api from '../api';
 import './SearchTag.css';
 
@@ -60,34 +61,45 @@ class SearchTag extends Component {
     // }
 
     componentDidMount() {
-        const background_urls = [];
-        this.state.tags.map((tag) => {
-            let url = api.baseUrl + '?method=flickr.tags.getClusterPhotos&api_key=' + api.api_key + '&tag=' + tag + '&cluster_id=&format=json&nojsoncallback=1';
-            Axios.get(url)
-                .then(res => {
-                    if (res) {
-                        const photo = res.data.photos.photo[0];
-                        let src = 'https://farm' + photo.farm + '.staticflickr.com/' + photo.server + '/' + photo.id + '_' + photo.secret + '_m.jpg'
-                        background_urls.push(src);
-                        
-                    }
-                });
+        var promise = new Promise((resolve, reject) => {
+            let background_urls = [];
+            this.state.tags.map((tag) => {
+                let url = api.baseUrl + '?method=flickr.tags.getClusterPhotos&api_key=' + api.api_key + '&tag=' + tag + '&cluster_id=&format=json&nojsoncallback=1';
+                Axios.get(url)
+                    .then(res => {
+                        if (res) {
+                            const photo = res.data.photos.photo[0];
+                            let src = 'https://farm' + photo.farm + '.staticflickr.com/' + photo.server + '/' + photo.id + '_' + photo.secret + '_m.jpg';
+                            background_urls.push(src);
+                            console.log(background_urls);
+                        }
+                    });
 
+            })
+            console.log(background_urls);
+            setTimeout(() => { resolve(background_urls) }, 900);
         })
-        this.setState({ background_urls: background_urls });
+        promise.then(res => {
+            this.setState({ background_urls: res });
+        })
+
     }
 
     render() {
+
         console.log(this.state.background_urls);
         return (
             <div className="container">
                 {this.state.tags.map((tag, i) => {
                     return (
-                        <div>
-                            <img src={this.state.background_urls[i]} />
-                            <div className="centered">
-                                <span>{tag}</span>
-                            </div>
+                        <div key={i}>
+                            <Link to={`/phototag/${tag}`}>
+                                <img src={this.state.background_urls[i]} alt="" />
+                                <div className="centered">
+                                    <span>{tag}</span>
+                                </div>
+                            </Link>
+
                         </div>
                     )
                 })}
