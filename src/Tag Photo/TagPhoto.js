@@ -40,19 +40,23 @@ const TagPhoto = ({ match }) => {
     //         })
 
     //     })
-    let photos = getPhoto({ match });
-    console.log(photos);
-    photos.map((photo, i) => {
-        return (
-            <div className="photo-view" key={i}>
-                <img className="image" src={'https://farm' + photo.farm + '.staticflickr.com/' + photo.server + '/' + photo.id + '_' + photo.secret + '.jpg'} />
-                <div className="interaction-bar">
-                    <div className="title">{photo.title}</div>
-                </div>
-            </div>
-        )
-    })
-
+    // let photos = getPhoto({ match });
+    // console.log(photos);
+    // photos.map((photo, i) => {
+    //     return (
+    //         <div className="photo-view" key={i}>
+    //             <img className="image" src={'https://farm' + photo.farm + '.staticflickr.com/' + photo.server + '/' + photo.id + '_' + photo.secret + '.jpg'} />
+    //             <div className="interaction-bar">
+    //                 <div className="title">{photo.title}</div>
+    //             </div>
+    //         </div>
+    //     )
+    // })
+    return(
+        <div>
+            <h3>{match.params.tagname}</h3>
+        </div>
+    )
 
 }
 
