@@ -24,7 +24,7 @@ class Page extends Component {
                         <Route exact path="/explorer" component={Explorer} />
                         <Route exact path="/tags" component={SearchTag} />
                         <Route exact path="/photos/:photo" component={Photo} />
-                        <Route exact path="tags/:tagname" component={PhotoTag} />
+                        <Route exact path="/tags/:tagname" component={PhotoTag} />
                     </Switch>
                 </div>
             </BrowserRouter>
