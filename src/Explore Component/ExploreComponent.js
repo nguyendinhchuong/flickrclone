@@ -5,7 +5,7 @@ import Gallery from 'react-grid-gallery';
 import ProTypes from 'prop-types';
 import api from '../api';
 import './ExploreComponent.css'
-
+import { Link } from 'react-router-dom';
 
 
 class Explorer extends Component {
@@ -54,12 +54,15 @@ class Explorer extends Component {
         var items = [];
         this.state.photos.map((photo, i) => {
             items.push(
-                <div className="photo-view" key={i}>
-                    <img className="image" src={'https://farm' + photo.farm + '.staticflickr.com/' + photo.server + '/' + photo.id + '_' + photo.secret + '.jpg'} />
-                    <div className="interaction-bar">
-                        <div className="title">{photo.title}</div>
+                <Link to={'/photos/'+photo.id}>
+                    <div className="photo-view" key={i}>
+                        <img className="image" src={'https://farm' + photo.farm + '.staticflickr.com/' + photo.server + '/' + photo.id + '_' + photo.secret + '.jpg'} />
+                        <div className="interaction-bar">
+                            <div className="title">{photo.title}</div>
+                        </div>
                     </div>
-                </div>
+                </Link>
+
             );
         })
         return (
