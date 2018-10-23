@@ -22,7 +22,7 @@ class Explorer extends Component {
 
     loadItems(page) {
         let self = this;
-        let url = api.baseUrl + '?method=flickr.interestingness.getList&api_key=' + api.api_key + '&per_page=20&page=' + self.state.page_pos + '&format=json&nojsoncallback=1';
+        let url = api.baseUrl + '?method=flickr.interestingness.getList&api_key=' + api.api_key + '&date=2018-10-21' + '&per_page=20&page=' + self.state.page_pos + '&format=json&nojsoncallback=1';
         if (this.state.nextHref) {
             url = this.state.nextHref;
         }

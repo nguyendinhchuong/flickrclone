@@ -3,6 +3,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
+import Searchbar from '../SearchBar Component/SearchBar';
 import './header.css';
 
 
@@ -46,9 +47,7 @@ class Header extends Component {
                                     </div>
                                 </li>
                             </ul>
-                            <form className="form-inline my-2 my-lg-0">
-                                <input className="" type="search" placeholder="Ảnh, mọi người hoặc nhóm" aria-label="Search" />
-                            </form>
+                            <Searchbar />
                             <ul className="navbar-nav view">
                                 <li className="nav-item">
                                     <a className="nav-link icon-custom"><FontAwesomeIcon icon={faCloudUploadAlt} /></a>
